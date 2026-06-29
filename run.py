@@ -40,6 +40,17 @@ def main():
 	#checking columns
 	print (df.columns)
 
+	#Converting Text Columns to Numeric Values
+	df['GENDER'] = df['GENDER'].map({
+		'M': 1,
+		'F': 2
+	})
+
+	df['LUNG_CANCER'] = df['LUNG_CANCER'].map({
+		'YES': 1,
+		'NO': 0
+	})
+
 	#Save the cleaned dataframe to a new CSV file so the updated data can be reused later
 	#exporting to a new 'cleaned' csv file
 	df.to_csv ('cleaned_survey_lung_cancer.csv', index=False)
@@ -80,3 +91,12 @@ grid_search= GridSearchCV(Lung_Cancer_Pipeline, param_grid, cv=2, scoring = 'r2'
 #r2 score is used as the evaluation metric for the model's performance. It measures how well the model's predictions match the actual values, with a higher r2 score indicating better performance.
 grid_search.fit (X_train, Y_train)
 
+#When looking at the models performance, we will use the best estimator found during hyperparameter tuning to make predictions on the test set and evaluate its performance using the r2 score.
+best_model = grid_search.best_estimator_
+
+#1.0 = perfect prediction, 0.0 = no predictive power, negative values = worse than a horizontal line. The r2 score is used to evaluate the model's performance on the test set, with a higher r2 score indicating better predictive accuracy.
+
+print (f"Best Settings: {grid_search.best_params_}")
+
+print (f"Training Accuracy: {best_model.score(X_train, Y_train):.2f}")
+print (f"Testing Accuracy: {best_model.score(X_test, Y_test):.2f}")
