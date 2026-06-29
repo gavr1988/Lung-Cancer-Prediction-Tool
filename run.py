@@ -35,6 +35,13 @@ df ['GENDER'] = df['GENDER'].map({
         'F': 0
 })
 
+#Changing Lung_Cancer column to binary format
+
+df ['LUNG_CANCER'] = df['LUNG_CANCER'].map({
+        'YES': 1,
+        'NO': 0
+})
+
 #exporting to a new 'cleaned' csv file
 df.to_csv ('cleaned_survey_lung_cancer.csv', index=False)
 
