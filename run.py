@@ -65,3 +65,18 @@ print ()
 #Splitting for training and testing sets, with 20% of the data reserved for testing. The random_state parameter is set to ensure reproducibility of the results.
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.2, random_state = 101)
 
+#Setting up the pipeline with standard scaling and a random forest regressor. The pipeline allows us to streamline the process of applying multiple transformations and modeling steps in a single workflow.
+Lung_Cancer_Pipeline = Pipeline(
+	[
+		('scaling', StandardScaler()),
+		('model', RandomForestRegressor(random_state=101))
+    ]
+)
+#parameter grid for hyperparameter tuning using GridSearchCV. We will test different values for the number of estimators in the random forest model to find the best combination of hyperparameters that improves model performance and reduces overfitting.
+param_grid = {"model__n_estimators": [10,20,30]}
+
+#CV = 2, which means that the data will be split into 2 folds for cross-validation during hyperparameter tuning. This helps to evaluate the model's performance on different subsets of the data and reduce overfitting.
+grid_search= GridSearchCV(Lung_Cancer_Pipeline, param_grid, cv=2, scoring = 'r2' )
+#r2 score is used as the evaluation metric for the model's performance. It measures how well the model's predictions match the actual values, with a higher r2 score indicating better performance.
+grid_search.fit (X_train, Y_train)
+
