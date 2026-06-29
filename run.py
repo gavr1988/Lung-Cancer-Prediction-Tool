@@ -100,3 +100,24 @@ print (f"Best Settings: {grid_search.best_params_}")
 
 print (f"Training Accuracy: {best_model.score(X_train, Y_train):.2f}")
 print (f"Testing Accuracy: {best_model.score(X_test, Y_test):.2f}")
+
+#testing the model with a new sample input to see if it can predict lung cancer based on the provided features. 
+#The input values are provided in the same order as the features in the training data.
+
+X_live = pd.DataFrame(data={
+    'GENDER': ['M'],
+    'AGE': [65],
+    'SMOKING': [2],
+    'YELLOW_FINGERS': [2],
+    'ANXIETY': [1],
+    'PEER_PRESSURE': [1],
+    'CHRONIC_DISEASE': [2],
+    'FATIGUE': [2],
+    'ALLERGY': [1],
+    'WHEEZING': [2],
+    'ALCOHOL_CONSUMING': [2],
+    'COUGHING': [2],
+    'SHORTNESS_OF_BREATH': [2],
+    'SWALLOWING_DIFFICULTY': [1],
+    'CHEST_PAIN': [2]
+}, index=[0])
