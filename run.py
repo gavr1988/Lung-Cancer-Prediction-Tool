@@ -27,21 +27,6 @@ df.columns = df.columns.str.replace (' ', '_')
 #checking columns
 print (df.columns)
 
-#Changing M to 1 and F to 0 in the Gender Column
-#This is to convert the Gender column into a binary format for analysis
-
-df ['GENDER'] = df['GENDER'].map({
-        'M': 0,
-        'F': 0
-})
-
-#Changing Lung_Cancer column to binary format
-
-df ['LUNG_CANCER'] = df['LUNG_CANCER'].map({
-        'YES': 1,
-        'NO': 0
-})
-
 #exporting to a new 'cleaned' csv file
 df.to_csv ('cleaned_survey_lung_cancer.csv', index=False)
 
