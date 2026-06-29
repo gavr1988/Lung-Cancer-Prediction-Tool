@@ -1,5 +1,15 @@
 #installing the required libraries
 import pandas as pd
+#To help reduce overfitting, we will use train_test_split to split the dataset into training and testing sets, allowing us to evaluate the model's performance on unseen data.
+from sklearn.datasets import fetch_california_housing
+#To help reduce overfitting, we will use GridSearchCV to perform hyperparameter tuning and find the best combination of hyperparameters for the model, which can help improve its performance and reduce overfitting.
+from sklearn.model_selection import train_test_split, GridSearchCV
+#To help reduce overfitting, we will use Pipeline to streamline the process of applying multiple transformations and modeling steps in a single workflow, which can help prevent data leakage and improve model performance.
+from sklearn.pipeline import Pipeline
+# To help reduce overfitting, we will use StandardScaler to standardise the features by removing the mean and scaling to unit variance.
+from sklearn.preprocessing import StandardScaler
+#To Help reduce overfitting, we will use Random Forest Regressor, which is an ensemble learning method that combines multiple decision trees to improve predictive performance and reduce overfitting.
+from sklearn.ensemble import RandomForestRegressor 
 
 
 def main():
@@ -39,4 +49,19 @@ def main():
 if __name__ == '__main__':
 	main()
 
+# Creating the ML pipeline
+
+#Loading the data from the cleaned CSV file
+
+df = pd.read_csv('cleaned_survey_lung_cancer.csv')
+
+#Splitting the data into features (X) and target variable (Y)
+#X variable will be removed from the data frame to help calculate Y (In this case is lung_Cancer)
+X = df.drop('LUNG_CANCER', axis=1)  
+#Y variable will be the target variable we want to predict (In this case is LUNG_CANCER)
+Y = df['LUNG_CANCER']
+
+print ()
+#Splitting for training and testing sets, with 20% of the data reserved for testing. The random_state parameter is set to ensure reproducibility of the results.
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.2, random_state = 101)
 
