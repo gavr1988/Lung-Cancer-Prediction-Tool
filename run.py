@@ -21,4 +21,12 @@ print ('Number of duplicate rows: ', duplicates.shape[0])
 print("Missing Values:")
 print (df.isnull().sum())
 
-#
+#Cleaning Columns titles
+df.columns = df.columns.str.strip()
+df.columns = df.columns.str.replace (' ', '_')
+
+print (df.columns)
+
+#exporting to a new 'cleaned' csv file
+df.to_csv ('cleaned_survey_lung_cancer.csv', index=False)
+
