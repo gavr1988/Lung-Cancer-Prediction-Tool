@@ -1,7 +1,7 @@
 #installing the required libraries
 import pandas as pd
 #To help reduce overfitting, we will use train_test_split to split the dataset into training and testing sets, allowing us to evaluate the model's performance on unseen data.
-from sklearn.datasets import fetch_california_housing
+from sklearn.model_selection import train_test_split
 #To help reduce overfitting, we will use GridSearchCV to perform hyperparameter tuning and find the best combination of hyperparameters for the model, which can help improve its performance and reduce overfitting.
 from sklearn.model_selection import train_test_split, GridSearchCV
 #To help reduce overfitting, we will use Pipeline to streamline the process of applying multiple transformations and modeling steps in a single workflow, which can help prevent data leakage and improve model performance.
@@ -19,10 +19,16 @@ def main():
 	#printing column headers
 	print(df.columns)
 
-	print (df.head)
+	print (df.head())
 
 	#checking column data types
 	print (df.dtypes)
+	
+    #Cleaning Columns titles
+	df.columns = df.columns.str.strip()
+	df.columns = df.columns.str.replace (' ', '_')
+	#checking columns
+	print (df.columns)
 
 	#identifying duplicates
 	duplicates = df[df.duplicated()]
@@ -34,11 +40,7 @@ def main():
 	print("Missing Values:")
 	print (df.isnull().sum())
 
-	#Cleaning Columns titles
-	df.columns = df.columns.str.strip()
-	df.columns = df.columns.str.replace (' ', '_')
-	#checking columns
-	print (df.columns)
+
 
 	#Converting Text Columns to Numeric Values
 	df['GENDER'] = df['GENDER'].map({
@@ -105,7 +107,7 @@ print (f"Testing Accuracy: {best_model.score(X_test, Y_test):.2f}")
 #The input values are provided in the same order as the features in the training data.
 
 X_live = pd.DataFrame(data={
-    'GENDER': ['M'],
+    'GENDER': [2],
     'AGE': [65],
     'SMOKING': [2],
     'YELLOW_FINGERS': [2],
@@ -121,3 +123,11 @@ X_live = pd.DataFrame(data={
     'SWALLOWING_DIFFICULTY': [1],
     'CHEST_PAIN': [2]
 }, index=[0])
+
+#Making predictions using the best model found during hyperparameter tuning. The model will output a prediction of whether the individual is likely to have lung cancer (1) or not (0) based on the provided features.
+#Prediction
+live_prediction = best_model.predict(X_live)
+print (f"Likelyhood Patient has lung cancer: {live_prediction[0]:.2f}")
+
+#summary statement to provide a clear and concise interpretation of the model's prediction based on the live input data. It indicates whether the model predicts the presence of lung cancer (1) or absence (0) for the given individual.
+print(f"Summary: Based on the live input data, the model predicts LUNG_CANCER = {live_prediction[0]}")
